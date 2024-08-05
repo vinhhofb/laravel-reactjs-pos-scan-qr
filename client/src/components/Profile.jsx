@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Navigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const Profile = () => {
   const [user, setUser] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -26,7 +27,7 @@ const Profile = () => {
 
   const handleLogout = () => {
     localStorage.removeItem('token');
-    Navigate('/login');
+    navigate('/login');
   };
 
   return (

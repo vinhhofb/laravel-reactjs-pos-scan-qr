@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { Navigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const RegisterForm = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [passwordConfirmation, setPasswordConfirmation] = useState('');
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -17,9 +18,10 @@ const RegisterForm = () => {
         password,
         password_confirmation: passwordConfirmation,
       });
-      localStorage.setItem('token', response.data.access_token);
-      // Chuyển hướng đến trang thông tin
-      Navigate('/profile');
+      if (response.data.token) {
+        localStorage.setItem('token', response.data.token);
+        navigate('/profile');
+      }
       console.log(response.data);
     } catch (error) {
       console.error('Registration failed', error);
